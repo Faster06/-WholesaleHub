@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wholesale Marketplace - Premium Products for Bulk Orders</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1 class="logo">📦 WholesaleHub</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#products">Products</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="search-container">
+                    <input type="text" id="searchInput" class="search-box" placeholder="Search products...">
+                    <button class="search-btn">🔍</button>
+                </div>
+                <button class="login-btn" onclick="openLoginModal()">🔐 Login</button>
+                <div class="cart-icon">
+                    <span>🛒</span>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Welcome to WholesaleHub</h2>
+            <p>Your trusted platform for bulk wholesale purchases at competitive prices</p>
+            <button class="cta-btn" onclick="document.getElementById('products').scrollIntoView({behavior: 'smooth'})">Browse Products</button>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filter-section">
+        <div class="container">
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="categoryFilter">Category:</label>
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="home">Home & Kitchen</option>
+                        <option value="sports">Sports & Outdoors</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="priceFilter">Price Range:</label>
+                    <select id="priceFilter">
+                        <option value="">All Prices</option>
+                        <option value="0-100">$0 - $100</option>
+                        <option value="100-500">$100 - $500</option>
+                        <option value="500-1000">$500 - $1000</option>
+                        <option value="1000+">$1000+</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="sortFilter">Sort By:</label>
+                    <select id="sortFilter">
+                        <option value="featured">Featured</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="newest">Newest</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="products-section">
+        <div class="container">
+            <h2 class="section-title">Featured Products</h2>
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2 class="section-title">About WholesaleHub</h2>
+            <div class="about-content">
+                <p>WholesaleHub is your premier destination for wholesale products and bulk orders. We connect businesses with quality suppliers and offer competitive pricing for large-scale purchases.</p>
+                <div class="about-features">
+                    <div class="feature">
+                        <h3>💼 B2B Solutions</h3>
+                        <p>Tailored wholesale solutions for your business needs</p>
+                    </div>
+                    <div class="feature">
+                        <h3>💰 Competitive Pricing</h3>
+                        <p>Best wholesale prices on premium quality products</p>
+                    </div>
+                    <div class="feature">
+                        <h3>🚚 Fast Shipping</h3>
+                        <p>Quick delivery to your doorstep</p>
+                    </div>
+                    <div class="feature">
+                        <h3>✅ Quality Assured</h3>
+                        <p>All products are verified for quality</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <form class="contact-form" id="contactForm">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea placeholder="Your Message" rows="5" required></textarea>
+                <button type="submit" class="cta-btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Shopping Cart</h2>
+            <div id="cartItems" class="cart-items">
+                <!-- Cart items will be displayed here -->
+            </div>
+            <div class="cart-summary">
+                <p><strong>Total:</strong> $<span id="cartTotal">0.00</span></p>
+            </div>
+            <button class="cta-btn" onclick="checkout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Product Details Modal -->
+    <div id="productDetailModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeProductDetailsModal()">&times;</span>
+            <div id="productDetailContent">
+                <!-- Product details will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeProfileModal()">&times;</span>
+            <h2>My Profile</h2>
+            <div id="profileContent" class="profile-content">
+                <!-- Profile content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 WholesaleHub. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#">Facebook</a>
+                <a href="#">Twitter</a>
+                <a href="#">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="JS/auth.js"></script>
+    <script src="JS/products.js"></script>
+    <script src="JS/cart.js"></script>
+    <script src="JS/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WholesaleHub - Testing Console</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .console {
+            background: #252526;
+            border: 1px solid #3e3e42;
+            padding: 15px;
+            border-radius: 5px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .console-header {
+            color: #4ec9b0;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        .test-button {
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px 5px 5px 0;
+            border-radius: 3px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .test-button:hover {
+            background: #005a9e;
+        }
+        .test-button.success {
+            background: #13c314;
+        }
+        .test-button.error {
+            background: #f48771;
+        }
+        .log-line {
+            margin: 5px 0;
+            padding: 5px 0;
+            border-bottom: 1px solid #3e3e42;
+        }
+        .log-success {
+            color: #4ec9b0;
+        }
+        .log-error {
+            color: #f48771;
+        }
+        .log-info {
+            color: #9cdcfe;
+        }
+        h3 {
+            color: #ce9178;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="console">
+        <div class="console-header">🧪 WholesaleHub Testing Console</div>
+        
+        <h3>📋 Test Suite</h3>
+        <button class="test-button" onclick="testProductsLoaded()">Test: Products Loaded</button>
+        <button class="test-button" onclick="testFiltersExist()">Test: Filters Exist</button>
+        <button class="test-button" onclick="testCartFunctions()">Test: Cart Functions</button>
+        <button class="test-button" onclick="testSearch()">Test: Search Function</button>
+        <button class="test-button" onclick="testSorting()">Test: Sorting Function</button>
+        <button class="test-button" onclick="clearConsole()">Clear Console</button>
+        
+        <h3>📊 Console Output</h3>
+        <div id="console-output"></div>
+    </div>
+
+    <script src="JS/products.js"></script>
+    <script src="JS/cart.js"></script>
+    <script src="JS/main.js"></script>
+
+    <script>
+        const consoleOutput = document.getElementById('console-output');
+
+        function log(message, type = 'info') {
+            const line = document.createElement('div');
+            line.className = `log-line log-${type}`;
+            
+            const timestamp = new Date().toLocaleTimeString();
+            line.textContent = `[${timestamp}] ${message}`;
+            
+            consoleOutput.appendChild(line);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+
+        function clearConsole() {
+            consoleOutput.innerHTML = '';
+            log('Console cleared', 'info');
+        }
+
+        function testProductsLoaded() {
+            log('Testing: Products loaded...', 'info');
+            
+            if (typeof productsData === 'undefined') {
+                log('❌ FAILED: productsData is not defined', 'error');
+                return;
+            }
+
+            if (!Array.isArray(productsData)) {
+                log('❌ FAILED: productsData is not an array', 'error');
+                return;
+            }
+
+            if (productsData.length === 0) {
+                log('❌ FAILED: productsData is empty', 'error');
+                return;
+            }
+
+            log(`✅ PASSED: ${productsData.length} products loaded`, 'success');
+            log(`Sample product: ${productsData[0].name} ($${productsData[0].price})`, 'info');
+        }
+
+        function testFiltersExist() {
+            log('Testing: Filter elements exist...', 'info');
+            
+            const filters = [
+                'categoryFilter',
+                'priceFilter',
+                'sortFilter',
+                'searchInput'
+            ];
+
+            let passed = 0;
+            filters.forEach(filterId => {
+                const element = document.getElementById(filterId);
+                if (element) {
+                    log(`✅ Found: ${filterId}`, 'success');
+                    passed++;
+                } else {
+                    log(`❌ Missing: ${filterId}`, 'error');
+                }
+            });
+
+            log(`Results: ${passed}/${filters.length} filters found`, passed === filters.length ? 'success' : 'error');
+        }
+
+        function testCartFunctions() {
+            log('Testing: Cart functions...', 'info');
+            
+            const functions = [
+                'addToCart',
+                'removeFromCart',
+                'updateQuantity',
+                'calculateTotal',
+                'openCart',
+                'closeCart'
+            ];
+
+            let passed = 0;
+            functions.forEach(funcName => {
+                if (typeof window[funcName] === 'function') {
+                    log(`✅ Function exists: ${funcName}`, 'success');
+                    passed++;
+                } else {
+                    log(`❌ Function missing: ${funcName}`, 'error');
+                }
+            });
+
+            log(`Results: ${passed}/${functions.length} cart functions found`, passed === functions.length ? 'success' : 'error');
+        }
+
+        function testSearch() {
+            log('Testing: Search function...', 'info');
+            
+            if (typeof searchProducts !== 'function') {
+                log('❌ FAILED: searchProducts function not found', 'error');
+                return;
+            }
+
+            const results = searchProducts('wireless');
+            log(`✅ Search for "wireless" returned ${results.length} results`, results.length > 0 ? 'success' : 'error');
+            
+            if (results.length > 0) {
+                log(`Sample result: ${results[0].name}`, 'info');
+            }
+        }
+
+        function testSorting() {
+            log('Testing: Sorting function...', 'info');
+            
+            if (typeof sortProducts !== 'function') {
+                log('❌ FAILED: sortProducts function not found', 'error');
+                return;
+            }
+
+            const testData = [...productsData].slice(0, 3);
+            const sorted = sortProducts(testData, 'price-low');
+            
+            if (sorted.length === 3 && sorted[0].price <= sorted[2].price) {
+                log(`✅ Price sorting works (Low to High)`, 'success');
+                log(`Sorted: $${sorted[0].price} → $${sorted[1].price} → $${sorted[2].price}`, 'info');
+            } else {
+                log('❌ FAILED: Sorting not working correctly', 'error');
+            }
+        }
+
+        // Initial system check
+        window.addEventListener('load', () => {
+            log('=== System Initialization Complete ===', 'info');
+            log(`📦 Products: ${productsData?.length || 'ERROR'} items`, 'info');
+            log(`🛒 Cart: ${cart?.length || 'ERROR'} items`, 'info');
+            log('Ready for testing!', 'success');
+        });
+    </script>
+</body>
+</html>
